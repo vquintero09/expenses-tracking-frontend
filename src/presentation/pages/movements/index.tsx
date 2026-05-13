@@ -35,18 +35,3 @@ export const Movements = () => {
     </main>
   );
 };
-
-/*
-Paleta de Colores (iOS Style)
-Fondo de Pantalla: #F2F2F7 (Gris claro tipo Ajustes de iOS).
-Tarjetas y Contenedores: #FFFFFF (Blanco).
-Acento / Primario: #007AFF (Azul iOS).
-Texto Principal: #000000 (Negro).
-Texto Secundario: #8E8E93 (Gris).
-Botón de Acción: #000000 con texto #FFFFFF.
-✍️ Tipografía (Familia Inter)
-Título Principal: 34px · Bold.
-Cuerpo de Tarjeta: 17px · Regular/Semibold.
-Etiquetas (Labels): 13px · Regular (Uppercase).
-Importes: 24px - 28px · Regular.
-*/

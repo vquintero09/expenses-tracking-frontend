@@ -2,14 +2,14 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import {
   createMovementSchema,
   type CreateMovementSchemaType,
-} from "@domain/movements/schemas";
+} from "../movement.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "./FormInput";
 import { AmountField } from "./AmountField";
 import { DateField } from "./FormDateField/DateField";
 import { AccountSelector } from "./AccountSelector";
 import { CategorySelector } from "./CategorySelector";
-import type { CreateMovementInput } from "@domain/movements/schemas/movement.schema";
+import type { CreateMovementInput } from "@/presentation/pages/movements/movement.schema";
 
 const defaultValues: CreateMovementInput = {
   description: "",

@@ -1,2 +1,1 @@
-export * from "./interfaces";
-export * from "./schemas";
+export * from "./expenses.interface";
