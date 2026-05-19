@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { MovementSelector } from "./components/MovementSelector";
 import { MovementForm } from "./components/MovementForm";
+import { useMovement } from "./hooks/useMovement";
+import dayjs from "dayjs";
 
 export const Movements = () => {
   const [movementType, setMovementType] = useState<"expense" | "income">(
     "expense",
   );
+
+  const { data: expenses, isLoading, isError, error } = useMovement();
 
   const handleMovementTypeChange = (value: "expense" | "income") => {
     setMovementType(value);
@@ -29,7 +33,43 @@ export const Movements = () => {
         </header>
 
         <section>
-          <MovementForm />
+          <MovementForm movementType={movementType} />
+        </section>
+
+        <section>
+          {/* Aquí se mostrarán los movimientos registrados */}
+          {isLoading && <p>Cargando movimientos...</p>}
+          {isError && (
+            <p>
+              Error al cargar movimientos:{" "}
+              {error instanceof Error ? error.message : "Error desconocido"}
+            </p>
+          )}
+          {expenses && expenses.length === 0 && (
+            <p>No hay movimientos registrados.</p>
+          )}
+          {expenses && expenses.length > 0 && (
+            <ul className="space-y-4">
+              {expenses.map((expense) => (
+                <li key={expense.id} className="p-4 bg-white rounded shadow">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-lg font-semibold">
+                        {expense.description}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {expense.category.name}{" "}
+                        {dayjs(expense.date).format("YYYY-MM-DD")}
+                      </p>
+                    </div>
+                    <p className="text-lg font-bold text-red-500">
+                      ${expense.amount}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </div>
     </main>

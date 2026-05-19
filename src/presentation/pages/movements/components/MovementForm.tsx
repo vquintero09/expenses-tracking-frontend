@@ -10,15 +10,25 @@ import { DateField } from "./FormDateField/DateField";
 import { AccountSelector } from "./AccountSelector";
 import { CategorySelector } from "./CategorySelector";
 import type { CreateMovementInput } from "@/presentation/pages/movements/movement.schema";
+import { useCreateMovement } from "../hooks/useMovement";
+import dayjs from "dayjs";
+import type { MovementType } from "@domain/movements";
+import { useEffect } from "react";
 
 const defaultValues: CreateMovementInput = {
   description: "",
+  movement_type: "expense",
   amount: undefined,
   category_id: "",
   account_id: "",
   date: new Date(),
 };
-export const MovementForm = () => {
+export const MovementForm = ({
+  movementType,
+}: {
+  movementType: MovementType;
+}) => {
+  const { mutate: createMovement, isPending } = useCreateMovement();
   const {
     control,
     formState: { errors },
@@ -30,8 +40,19 @@ export const MovementForm = () => {
     defaultValues,
   });
 
+  useEffect(() => {
+    reset();
+  }, [movementType, reset]);
+
   const onSubmit: SubmitHandler<CreateMovementSchemaType> = (data) => {
-    console.log("Form data:", data);
+    const payload = {
+      ...data,
+      movement_type: movementType,
+      date: data.date ? dayjs(data.date).format("YYYY-MM-DD") : "",
+    };
+    createMovement(payload);
+
+    console.log(payload);
     reset();
   };
 
@@ -56,9 +77,10 @@ export const MovementForm = () => {
       </div>
       <button
         type="submit"
+        disabled={isPending}
         className="w-full rounded-full bg-white text-black p-2 mt-5 font-bold shadow-2xl shadow-white/30 hover:scale-95 transition-transform"
       >
-        Guardar Movimiento
+        {isPending ? "Guardando..." : "Guardar Movimiento"}
       </button>
     </form>
   );

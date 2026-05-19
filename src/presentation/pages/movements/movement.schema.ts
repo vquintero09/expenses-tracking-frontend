@@ -2,6 +2,9 @@ import z from "zod";
 
 export const movementSchema = z.object({
   id: z.string().uuid("El ID del movimiento no es válido"),
+  movement_type: z.enum(["income", "expense"], {
+    message: "El tipo de movimiento debe ser 'income' o 'expense'",
+  }),
   description: z
     .string()
     .min(1, "La descripción es requerida")
@@ -9,10 +12,14 @@ export const movementSchema = z.object({
   amount: z.coerce
     .number({ message: "El monto es requerido" })
     .positive("El monto debe ser un número positivo"),
-  category_id: z.string().min(1, "La categoría es requerida"),
-  // .uuid("El ID de la categoría no es válido"),
-  account_id: z.string().min(1, "La cuenta es requerida"),
-  // .uuid("El ID de la cuenta no es válido"),
+  category_id: z
+    .string()
+    .min(1, "La categoría es requerida")
+    .uuid("El ID de la categoría no es válido"),
+  account_id: z
+    .string()
+    .min(1, "La cuenta es requerida")
+    .uuid("El ID de la cuenta no es válido"),
   date: z.date({ message: "La fecha no es válida" }),
 });
 
