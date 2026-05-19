@@ -13,11 +13,36 @@ interface AccountFieldProps<T extends FieldValues> {
 }
 
 const mockAccounts = [
-  { id: "1", name: "BBVA", balance: 5000 },
-  { id: "2", name: "Revolut", balance: 10000 },
-  { id: "3", name: "CASH", balance: 2000 },
-  { id: "4", name: "Santander", balance: 3000 },
-  { id: "5", name: "Banorte", balance: 4000 },
+  {
+    id: "1",
+    uuid: "ff1ca7d8-88f4-45e9-a3b7-d34829655bd3",
+    name: "BBVA",
+    balance: 5000,
+  },
+  {
+    id: "2",
+    uuid: "ff1ca7d8-88f4-45e9-a3b7-d34829655bd1",
+    name: "Revolut",
+    balance: 10000,
+  },
+  {
+    id: "3",
+    uuid: "ff1ca7d8-88f4-45e9-a3b7-d34829655bd2",
+    name: "CASH",
+    balance: 2000,
+  },
+  {
+    id: "4",
+    uuid: "ff1ca7d8-88f4-45e9-a3b7-d34829655bd4",
+    name: "Santander",
+    balance: 3000,
+  },
+  {
+    id: "5",
+    uuid: "ff1ca7d8-88f4-45e9-a3b7-d34829655bd5",
+    name: "Banorte",
+    balance: 4000,
+  },
 ];
 
 export const AccountSelector = <T extends FieldValues>({
@@ -40,14 +65,14 @@ export const AccountSelector = <T extends FieldValues>({
               style={{ scrollbarWidth: "none" }}
             >
               {mockAccounts.map((account) => {
-                const isSelected = account.id === field.value;
+                const isSelected = account.uuid === field.value;
 
                 return (
                   <button
                     key={account.id}
                     type="button"
                     className={`flex flex-col items-center gap-3 min-w-16 sm:min-w-16 group`}
-                    onClick={() => field.onChange(account.id)}
+                    onClick={() => field.onChange(account.uuid)}
                   >
                     <section className="relative">
                       <div

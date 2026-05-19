@@ -35,7 +35,7 @@ export const AmountField = <T extends FieldValues>({
               {...field}
               value={field.value ?? ""}
               id="amount"
-              type="string"
+              type="number"
               inputMode="decimal"
               placeholder="0.00"
               startAdornment={
@@ -44,7 +44,12 @@ export const AmountField = <T extends FieldValues>({
                 </InputAdornment>
               }
               error={!!fieldState.error}
-              onChange={(e) => field.onChange(Number(e.target.value))}
+              onChange={(e) => {
+                const value = e.target.value;
+                field.onChange(
+                  value === "" ? undefined : Number(e.target.value),
+                );
+              }}
               sx={{
                 color: "white",
                 fontSize: "20px",
