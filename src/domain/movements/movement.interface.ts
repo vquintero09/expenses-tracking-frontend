@@ -10,12 +10,12 @@ export interface ICreateMovement {
 }
 
 // Response interfaces
-export interface ICategoryResponse {
+export interface IMovementCategory {
   id: string;
   name: string;
 }
 
-export interface IAccountResponse {
+export interface IMovementAccount {
   id: string;
   name: string;
 }
@@ -26,6 +26,6 @@ export interface IMovementResponse {
   description: string;
   amount: number;
   date: string;
-  category: ICategoryResponse;
-  account: IAccountResponse;
+  category: IMovementCategory;
+  account: IMovementAccount;
 }
