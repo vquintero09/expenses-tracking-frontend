@@ -1,4 +1,4 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import {
   createMovementSchema,
   type CreateMovementSchemaType,
@@ -8,7 +8,7 @@ import { FormInput } from "./FormInput";
 import { AmountField } from "./AmountField";
 import { DateField } from "./FormDateField/DateField";
 import { AccountSelector } from "./AccountSelector";
-import { CategorySelector } from "./CategorySelector";
+import { MovementCategorySelector } from "./MovementCategorySelector";
 import type { CreateMovementInput } from "@/presentation/pages/movements/movement.schema";
 import { useCreateMovement } from "../hooks/useMovement";
 import dayjs from "dayjs";
@@ -36,12 +36,12 @@ export const MovementForm = ({
     handleSubmit,
   } = useForm<CreateMovementInput, unknown, CreateMovementSchemaType>({
     resolver: zodResolver(createMovementSchema),
-    mode: "onChange",
+    mode: "onTouched",
     defaultValues,
   });
 
   useEffect(() => {
-    reset();
+    reset(defaultValues);
   }, [movementType, reset]);
 
   const onSubmit: SubmitHandler<CreateMovementSchemaType> = (data) => {
@@ -56,7 +56,7 @@ export const MovementForm = ({
     reset();
   };
 
-  const onError = (errors: any) => {
+  const onError = (errors: FieldValues) => {
     console.log("Validation errors:", errors);
   };
   return (
@@ -73,7 +73,7 @@ export const MovementForm = ({
         <AmountField name="amount" control={control} />
         <DateField name="date" control={control} />
         <AccountSelector name="account_id" control={control} />
-        <CategorySelector name="category_id" control={control} />
+        <MovementCategorySelector name="category_id" control={control} />
       </div>
       <button
         type="submit"
