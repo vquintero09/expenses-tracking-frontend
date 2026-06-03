@@ -88,7 +88,7 @@
 
 /* Action buttons */
 .action_buttons {
-    @apply flex gap-3
+    @apply flex gap-3 mt-4
 }
 
 .action_button {
