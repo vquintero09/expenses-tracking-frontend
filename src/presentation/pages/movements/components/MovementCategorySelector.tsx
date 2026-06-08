@@ -7,9 +7,11 @@ import {
 } from "react-hook-form";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { getICon } from "@/presentation/shared/constants/CategoryIcons";
 import { useGetCategories } from "../../categories/hooks/useCategory";
 import { CreateCategoryModal } from "../../categories/components/CreateCategoryModal";
+import { ManageCategoriesModalContent } from "../../categories/components/ManageCategoriesModal";
 
 interface CategoryFieldProps<T extends FieldValues> {
   name: Path<T>;
@@ -21,6 +23,7 @@ export const MovementCategorySelector = <T extends FieldValues>({
   control,
 }: CategoryFieldProps<T>) => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isManageOpen, setIsManageOpen] = useState(false);
 
   const { data: categories } = useGetCategories();
 
@@ -43,6 +46,43 @@ export const MovementCategorySelector = <T extends FieldValues>({
             <section
               className={`flex flex-wrap gap-x-4 gap-y-3 overflow-x-auto overflow-y-hidden py-2`}
             >
+              {/*crear categoria*/}
+              <section className="flex items-center gap-4">
+                <button
+                  className="flex flex-col items-center gap-2 min-w-16 sm:min-w-16  w-18 shrink-0 "
+                  onClick={() => setIsCreateOpen(true)}
+                  type="button"
+                >
+                  <div className=" flex items-center justify-center w-13 h-13 rounded-full border border-dashed  border-white/20 bg-white/5 ">
+                    <AddIcon
+                      fontSize="small"
+                      className="text-text-on-surface-variant"
+                    />
+                  </div>
+                  <p className="text-[12px] font-medium text-text-on-surface-variant">
+                    Nueva categoria
+                  </p>
+                </button>
+
+                {categories?.length === 0 ? null : (
+                  <button
+                    type="button"
+                    className="flex flex-col items-center gap-2 min-w-16 sm:min-w-16  w-18 shrink-0"
+                    onClick={() => setIsManageOpen(true)}
+                  >
+                    <div className="flex flex-col items-center justify-center w-13 h-13 rounded-full border border-dashed border-white/20 bg-white/5">
+                      <SettingsIcon
+                        fontSize="small"
+                        className="text-text-on-surface-variant"
+                      />
+                    </div>
+                    <span className="text-[12px] font-medium text-text-on-surface-variant">
+                      Gestionar categorias
+                    </span>
+                  </button>
+                )}
+              </section>
+
               {categories?.map((category) => {
                 const isSelected = category.id === field.value;
                 return (
@@ -77,24 +117,6 @@ export const MovementCategorySelector = <T extends FieldValues>({
                   </button>
                 );
               })}
-              {/*crear categoria*/}
-              <section>
-                <button
-                  className="flex flex-col items-center gap-2 min-w-16 sm:min-w-16  w-18 shrink-0 "
-                  onClick={() => setIsCreateOpen(true)}
-                  type="button"
-                >
-                  <div className=" flex items-center justify-center w-13 h-13 rounded-full border border-dashed  border-white/20 bg-white/5 ">
-                    <AddIcon
-                      fontSize="small"
-                      className="text-text-on-surface-variant"
-                    />
-                  </div>
-                  <p className="text-[12px] font-medium text-text-on-surface-variant">
-                    Nueva categoria
-                  </p>
-                </button>
-              </section>
             </section>
             <FormHelperText error>{fieldState.error?.message}</FormHelperText>
           </div>
@@ -103,6 +125,11 @@ export const MovementCategorySelector = <T extends FieldValues>({
       <CreateCategoryModal
         open={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}
+      />
+
+      <ManageCategoriesModalContent
+        open={isManageOpen}
+        onClose={() => setIsManageOpen(false)}
       />
     </>
   );
