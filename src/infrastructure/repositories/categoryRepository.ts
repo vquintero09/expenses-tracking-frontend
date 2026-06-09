@@ -19,7 +19,7 @@ export const categoryRepository: ICategoryRepository = {
   },
 
   updateCategory: async (id, categoryData) => {
-    const { data } = await expensesApi.patch<ICategoryResponse>(
+    const { data } = await expensesApi.put<ICategoryResponse>(
       `/categories/${id}`,
       categoryData,
     );

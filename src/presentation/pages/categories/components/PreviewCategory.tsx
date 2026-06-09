@@ -2,9 +2,9 @@ import { getICon } from "@/presentation/shared/constants/CategoryIcons";
 import styles from "../index.module.css";
 
 interface PreviewCategoryProps {
-  categoryName: string;
-  iconName: string;
-  bgColor: string;
+  categoryName: string | undefined;
+  iconName: string | undefined;
+  bgColor: string | undefined;
 }
 
 export const PreviewCategory = ({
@@ -12,6 +12,8 @@ export const PreviewCategory = ({
   iconName,
   bgColor,
 }: PreviewCategoryProps) => {
+  if (!iconName) return null;
+
   const getIconComponent = (name: string) => {
     const Icon = getICon(name);
     return <Icon fontSize="small" />;
