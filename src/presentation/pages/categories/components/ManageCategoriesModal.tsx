@@ -2,9 +2,11 @@ import { getICon } from "@/presentation/shared/constants/CategoryIcons";
 import { useGetCategories } from "../hooks/useCategory";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CategoryOptionsModal } from "./CategoryOptionsModal";
+import { CategoryEditModal } from "./CategoryEditModal";
 import { useState } from "react";
 import type { ICategoryResponse } from "@domain/categories";
 import styles from "../index.module.css";
+import { createPortal } from "react-dom";
 
 interface IManageCategoriesModalProps {
   open: boolean;
@@ -12,9 +14,8 @@ interface IManageCategoriesModalProps {
 }
 
 export const ManageCategoriesModalContent = ({
-  open,
   onClose,
-}: IManageCategoriesModalProps) => {
+}: Omit<IManageCategoriesModalProps, "open">) => {
   const { data: categories, isLoading } = useGetCategories();
 
   const [optionsCategory, setOptionsCategory] =
@@ -42,8 +43,6 @@ export const ManageCategoriesModalContent = ({
   };
 
   if (!open) return null;
-
-  console.log(styles.close_button);
 
   return (
     <>
@@ -101,6 +100,27 @@ export const ManageCategoriesModalContent = ({
           </button>
         </div>
       </main>
+
+      <CategoryEditModal
+        open={!!editCategory}
+        category={editCategory}
+        onClose={() => setEditCategory(null)}
+      />
     </>
+  );
+};
+
+export const ManageCategoriesModal = ({
+  open,
+  onClose,
+}: IManageCategoriesModalProps) => {
+  const portalRoot = document.getElementById("modal-root");
+
+  // No renderiza si el modal está cerrado o si no se encuentra el elemento raíz
+  if (!open || !portalRoot) return null;
+
+  return createPortal(
+    <ManageCategoriesModalContent onClose={onClose} />,
+    portalRoot,
   );
 };

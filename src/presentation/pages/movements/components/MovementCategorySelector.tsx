@@ -11,7 +11,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { getICon } from "@/presentation/shared/constants/CategoryIcons";
 import { useGetCategories } from "../../categories/hooks/useCategory";
 import { CreateCategoryModal } from "../../categories/components/CreateCategoryModal";
-import { ManageCategoriesModalContent } from "../../categories/components/ManageCategoriesModal";
+import { ManageCategoriesModal } from "../../categories/components/ManageCategoriesModal";
 
 interface CategoryFieldProps<T extends FieldValues> {
   name: Path<T>;
@@ -127,7 +127,7 @@ export const MovementCategorySelector = <T extends FieldValues>({
         onClose={() => setIsCreateOpen(false)}
       />
 
-      <ManageCategoriesModalContent
+      <ManageCategoriesModal
         open={isManageOpen}
         onClose={() => setIsManageOpen(false)}
       />
