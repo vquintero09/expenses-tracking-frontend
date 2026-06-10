@@ -102,7 +102,7 @@
 }
 
 .options_modal_container {
-    @apply absolute bg-[#2C2C2E]/90 rounded-xl shadow-xl min-w-32.5 p-0.5
+    @apply flex flex-col fixed bg-[#2C2C2E]/90 rounded-xl shadow-xl min-w-32.5 p-0.5
 }
 
 .options_modal_content {
@@ -110,7 +110,7 @@
 }
 
 .option_button {
-    @apply w-full flex items-center gap-3 px-3 py-2 rounded transition-colors
+    @apply text-[14px] w-full flex items-center gap-3 px-3 py-2 rounded transition-colors
 }
 
 .option_button_edit {
@@ -124,11 +124,11 @@
 /*************************************************/
 /* ManageCategoriesModal */
 .categories_grid {
-    @apply flex flex-wrap gap-x-4 gap-y-3 overflow-x-auto overflow-y-hidden min-h-20 py-2
+    @apply flex relative flex-wrap gap-x-4 gap-y-3 overflow-x-auto overflow-y-hidden min-h-20 py-2 
 }
 
 .category_item {
-    @apply flex flex-col items-center gap-2 min-w-16 shrink-0
+    @apply flex flex-col items-center gap-2 w-24 shrink-0
 }
 
 .category_circle {
@@ -140,7 +140,12 @@
 }
 
 .category_label {
-    @apply text-[12px] text-center leading-tight text-text-on-surface-variant
+    @apply text-[12px] text-center text-text-on-surface-variant;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .empty_message {
@@ -148,6 +153,6 @@
 }
 
 .close_button {
-    @apply text-[15px] bg-white text-black font-bold py-2 px-4 rounded-lg hover:bg-primary-hover bg-red-500
+    @apply text-[15px] bg-white text-black font-bold py-2 px-4 rounded-lg  bg-red-500
 }
 

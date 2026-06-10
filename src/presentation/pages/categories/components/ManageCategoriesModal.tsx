@@ -20,10 +20,11 @@ export const ManageCategoriesModalContent = ({
 
   const [optionsCategory, setOptionsCategory] =
     useState<ICategoryResponse | null>(null);
+
   const [editCategory, setEditCategory] = useState<ICategoryResponse | null>(
     null,
   );
-  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
+  const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
   const filteredCategories = categories?.filter(
     (category) => category.category_type == "expense",
@@ -33,7 +34,7 @@ export const ManageCategoriesModalContent = ({
     category: ICategoryResponse,
     e: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAnchorRect(e.currentTarget.getBoundingClientRect());
+    setAnchorElement(e.currentTarget);
     setOptionsCategory(category);
   };
 
@@ -41,8 +42,6 @@ export const ManageCategoriesModalContent = ({
     const Icon = getICon(name);
     return <Icon fontSize="small" />;
   };
-
-  if (!open) return null;
 
   return (
     <>
@@ -72,13 +71,6 @@ export const ManageCategoriesModalContent = ({
                   >
                     <MoreVertIcon />
                   </button>
-                  <CategoryOptionsModal
-                    open={!!optionsCategory}
-                    anchorRect={anchorRect}
-                    category={optionsCategory}
-                    onClose={() => setOptionsCategory(null)}
-                    onEdit={(cat) => setEditCategory(cat)}
-                  />
                 </div>
                 <span className={styles.category_label}>{category.name}</span>
               </div>
@@ -100,6 +92,14 @@ export const ManageCategoriesModalContent = ({
           </button>
         </div>
       </main>
+
+      <CategoryOptionsModal
+        open={!!optionsCategory}
+        anchorElement={anchorElement}
+        category={optionsCategory}
+        onClose={() => setOptionsCategory(null)}
+        onEdit={(cat) => setEditCategory(cat)}
+      />
 
       <CategoryEditModal
         open={!!editCategory}
