@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@reference "../../index.css";
+.navigation {
+  @apply fixed bottom-3 left-1/2 -translate-x-1/2 w-[91%] md:w-[30%] z-50 bg-black/80 backdrop-blur-md border border-white/10 rounded-full p-3 flex items-center justify-evenly shadow-2xl;
+}
+
+.navigationList {
+  @apply flex justify-around items-center w-full;
+}
+
+.navigationButton {
+  @apply flex items-center gap-2 rounded-full duration-300 text-white/60;
+}
+
+.activeNavItem {
+  @apply flex items-center bg-white/15 rounded-full px-3 py-1.5 gap-1.5;
+}
+
+.activeNavLabel {
+    @apply text-[14px] text-white font-semibold
+}
+
+.inactiveNavItem {
+  @apply flex items-center rounded-full px-3 py-1 gap-1.5;
+}
