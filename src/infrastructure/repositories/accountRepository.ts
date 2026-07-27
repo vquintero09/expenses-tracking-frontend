@@ -1,10 +1,18 @@
 import type { IAccountRepository } from "@domain/accounts/accountRepository.interface";
 import { expensesApi } from "../http/axios.client";
-import type { IAccountResponse } from "@domain/accounts/account.interface";
+import type {
+  IAccountResponse,
+  ITotalBalance,
+} from "@domain/accounts/account.interface";
 
 export const accountRepository: IAccountRepository = {
   getAllAccounts: async () => {
     const { data } = await expensesApi.get<IAccountResponse[]>("/accounts");
+    return data;
+  },
+
+  getAccountById: async (id) => {
+    const { data } = await expensesApi.get<IAccountResponse>(`/accounts/${id}`);
     return data;
   },
 
@@ -27,6 +35,13 @@ export const accountRepository: IAccountRepository = {
   deleteAccount: async (id) => {
     const { data } = await expensesApi.delete<IAccountResponse | null>(
       `/accounts/${id}`,
+    );
+    return data;
+  },
+
+  getTotalBalance: async () => {
+    const { data } = await expensesApi.get<ITotalBalance>(
+      "/accounts/total-balance",
     );
     return data;
   },
