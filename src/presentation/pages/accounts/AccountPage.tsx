@@ -22,7 +22,10 @@ export const AccountPage = () => {
 
         <section className={styles.accounts_section}>
           <h2 className={styles.accounts_section_title}>Tus cuentas</h2>
-          <Link to="/cuentas/nueva" className={styles.add_account_button}>
+          <Link
+            to="/cuentas/nueva-cuenta"
+            className={styles.add_account_button}
+          >
             <AddIcon fontSize="small" />
           </Link>
         </section>

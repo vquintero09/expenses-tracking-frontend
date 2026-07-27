@@ -10,6 +10,7 @@ import { ColorPicker } from "@/presentation/shared/components/ColorPicker";
 import styles from "../index.module.css";
 import type { AxiosError } from "axios";
 import type { ApiError } from "@domain/apiError.interface";
+import { useNavigate } from "react-router-dom";
 
 type CreateAccountForm = {
   name: string;
@@ -23,7 +24,8 @@ const defaultValues: CreateAccountForm = {
   initial_balance: undefined,
 };
 
-export const CreateAccountModalContent = () => {
+export const CreateAccountPage = () => {
+  const navigate = useNavigate();
   const { mutate: createAccount, isPending, isError } = useCreateAccount();
   const { control, reset, handleSubmit, setError } = useForm<ICreateAccount>({
     resolver: zodResolver(createAccountSchema),
@@ -39,6 +41,7 @@ export const CreateAccountModalContent = () => {
     createAccount(payload, {
       onSuccess: () => {
         reset(defaultValues);
+        navigate("/cuentas");
         console.log("data", data);
       },
       onError: (error) => {
@@ -56,10 +59,14 @@ export const CreateAccountModalContent = () => {
   return (
     <div className={styles.account_container}>
       <header className={styles.account_header}>
-        <div className={styles.account_header_back}>
+        <button
+          type="button"
+          onClick={() => navigate("/cuentas")}
+          className={styles.account_header_back}
+        >
           <ArrowBackIcon />
           <span>Cuentas</span>
-        </div>
+        </button>
         <h2 className={styles.account_title}>Nueva cuenta</h2>
         <span className={styles.account_subtitle}>
           Crea una nueva cuenta para administrar tus finanzas.
@@ -78,7 +85,7 @@ export const CreateAccountModalContent = () => {
       </form>
 
       {isError && (
-        <div className="mt-4 text-red-500">
+        <div className="mt-4 text-red-500 text-sm">
           Ocurrió un error al crear una cuenta. Por favor, inténtalo de nuevo.
         </div>
       )}
