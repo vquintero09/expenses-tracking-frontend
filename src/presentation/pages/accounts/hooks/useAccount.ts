@@ -17,10 +17,12 @@ export const useGetAccounts = () => {
   });
 };
 
-export const useGetAccountById = (id: string) => {
+export const useGetAccountById = (id: string, enabled: boolean = true) => {
   return useQuery({
     queryKey: accountKeys.detail(id),
     queryFn: () => accountRepository.getAccountById(id),
+    enabled: enabled && !!id,
+    //enable permirte apagar la query desde el componente que la llama, para evitar que se ejecute si no hay un id valido
   });
 };
 
@@ -37,6 +39,7 @@ export const useCreateAccount = () => {
     mutationFn: accountRepository.createAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: accountKeys.list() });
+      queryClient.invalidateQueries({ queryKey: accountKeys.totalBalance() });
     },
     onError: (error) => {
       console.log(`Error in account creation mutation: ${error}`);
@@ -54,7 +57,10 @@ export const useUpdateAccount = () => {
       id: string;
       accountData: IUpdateAccount;
     }) => accountRepository.updateAccount(id, accountData),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: accountKeys.detail(variables.id),
+      });
       queryClient.invalidateQueries({ queryKey: accountKeys.list() });
     },
     onError: (error) => {
@@ -69,6 +75,7 @@ export const useDeleteAccount = () => {
     mutationFn: accountRepository.deleteAccount,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: accountKeys.list() });
+      queryClient.invalidateQueries({ queryKey: accountKeys.totalBalance() });
     },
     onError: (error) => {
       console.log(`Error in account delete mutation: ${error}`);
