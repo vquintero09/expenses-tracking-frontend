@@ -62,8 +62,44 @@
     @apply text-sm text-text-on-surface-variant
 }
 
+.delete_warning_overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 py-6
+}
 
-/* Action buttons */
+.delete_warning_modal {
+    @apply w-full max-w-sm rounded-3xl bg-[#111111]/95 p-5 shadow-2xl
+}
+
+.delete_warning_text {
+    @apply text-[13px] leading-5 text-white
+}
+
+.delete_warning_name {
+    @apply font-bold tracking-wide
+}
+
+.delete_warning_actions {
+    @apply flex gap-3 mt-4
+}
+
+.delete_warning_confirm {
+    @apply flex-1 py-2 rounded-full bg-red-500/20 text-red-400 font-semibold hover:bg-red-500/30 transition-all
+}
+
+/* ActionButton */
+.action_button_container {
+    @apply flex flex-col items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed
+}
+
+.action_button_icon {
+    @apply w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white
+}
+
+.action_button_label {
+    @apply text-[12px] font-medium text-[#bbc9cf]
+}
+
+/* AccountEditModal */
 .action_buttons {
     @apply flex gap-3 mt-4
 }
@@ -72,21 +108,43 @@
     @apply flex-1 py-2 rounded-full bg-white/10 text-white font-semibold transition-all duration-200 hover:bg-white/20
 }
 
-/* Card de saldo (reutilizada por Saldo Total y por el detalle de cuenta) */
+/* AccountDetailPage */
+.account_detail_main {
+    @apply min-h-screen px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-16
+}
+
+.account_detail_content {
+    @apply w-full max-w-sm mx-auto sm:max-w-md
+}
+
+.account_detail_actions {
+    @apply grid grid-cols-4 gap-2 mt-5
+}
+
+/* BalanceCard */
 .total_balance_card {
-    @apply w-full p-5 bg-card border border-outline-variant rounded-3xl mt-2
+    @apply relative p-8 bg-[linear-gradient(145deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_100%)] border border-outline-variant overflow-hidden rounded-3xl mt-2
+}
+.total_balance_background {
+    @apply absolute -top-10 -right-10 w-32 h-32 bg-[#a4e6ff]/20 rounded-full blur-2xl pointer-events-none
 }
  
 .total_balance_label {
-    @apply text-[12px] tracking-wider font-medium text-text-on-surface-variant uppercase text-center
+    @apply text-[15px] tracking-[0.02em] font-bold text-text-on-surface-variant uppercase
+} 
+.total_balance_empty {
+    @apply flex justify-start text-[15px] text-slate-500 text-center mt-2
 }
- 
+   
 .total_balance_amount {
-    @apply text-[32px] font-bold text-white text-center mt-1
+    @apply text-3xl font-bold text-[#e5e2e1] text-center mt-1
 }
- 
+.total_balance_amount_wrapper {
+@apply flex items-baseline gap-2
+}
+
 .total_balance_currency {
-    @apply text-[16px] font-medium text-text-on-surface-variant
+    @apply text-[14px] tracking-tight font-bold text-[#bbc9cf]
 }
  
 /* Listado de cuentas */
