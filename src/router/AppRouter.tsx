@@ -1,5 +1,6 @@
 import { AppLayout } from "@/presentation/layouts/AppLayout";
 import { AccountPage } from "@/presentation/pages/accounts/AccountPage";
+import { AccountDetailPage } from "@/presentation/pages/accounts/components/AccountDetailPage";
 import { CreateAccountPage } from "@/presentation/pages/accounts/components/CreateAccountPage";
 import { Movements } from "@/presentation/pages/movements";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -15,6 +16,7 @@ export const AppRouter = () => {
           <Route path="metas" element={<h1>Metas</h1>} />
           <Route path="cuentas" element={<AccountPage />} />
           <Route path="cuentas/nueva-cuenta" element={<CreateAccountPage />} />
+          <Route path="cuentas/:id" element={<AccountDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
