@@ -19,3 +19,18 @@ export const updateAccountSchema = createAccountSchema
   .refine((data) => Object.keys(data).length > 0, {
     message: "Debes enviar al menos un campo para actualizar",
   });
+
+export const adjustBalanceSchema = z.object({
+  new_balance: z
+    .string()
+    .min(1, "El campo nuevo balance es requerido")
+    .refine((value) => !isNaN(Number(value)), {
+      message: "El saldo debe ser un número válido",
+    }),
+  reason: z
+    .string()
+    .max(255, "El motivo no puede exeder los 255 caracteres")
+    .optional(),
+});
+
+export type IAdjustBalanceForm = z.infer<typeof adjustBalanceSchema>;

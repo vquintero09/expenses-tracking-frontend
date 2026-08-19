@@ -45,4 +45,12 @@ export const accountRepository: IAccountRepository = {
     );
     return data;
   },
+
+  adjustBalance: async (id, adjustmentData) => {
+    const { data } = await expensesApi.post(
+      `/accounts/${id}/adjust`,
+      adjustmentData,
+    );
+    return data;
+  },
 };

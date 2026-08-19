@@ -24,3 +24,26 @@ export interface IAccountResponse {
 export interface ITotalBalance {
   total_accounts_balance: number;
 }
+
+export interface IMovementItem {
+  id: string;
+  movement_type: "income" | "expense";
+  description: string;
+  amount: number;
+  date: string;
+  category: {
+    id: string;
+    name: string;
+  };
+}
+
+// Ajuste de saldo
+export interface IAdjustBalance {
+  new_balance: number;
+  reason?: string;
+}
+
+export interface IAdjustBalanceResponse {
+  account: IAccountResponse;
+  adjustment_movement: IMovementItem;
+}

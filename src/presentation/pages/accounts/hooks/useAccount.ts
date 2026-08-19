@@ -1,5 +1,8 @@
 import { accountRepository } from "@/infrastructure/repositories/accountRepository";
-import type { IUpdateAccount } from "@domain/accounts/account.interface";
+import type {
+  IAdjustBalance,
+  IUpdateAccount,
+} from "@domain/accounts/account.interface";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const accountKeys = {
@@ -72,13 +75,37 @@ export const useUpdateAccount = () => {
 export const useDeleteAccount = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: accountRepository.deleteAccount,
+    mutationFn: (id: string) => accountRepository.deleteAccount(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: accountKeys.list() });
       queryClient.invalidateQueries({ queryKey: accountKeys.totalBalance() });
     },
     onError: (error) => {
       console.log(`Error in account delete mutation: ${error}`);
+    },
+  });
+};
+
+export const useAdjustBalance = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      adjustmentData,
+    }: {
+      id: string;
+      adjustmentData: IAdjustBalance;
+    }) => accountRepository.adjustBalance(id, adjustmentData),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: accountKeys.detail(variables.id),
+      });
+      queryClient.invalidateQueries({ queryKey: accountKeys.list() });
+      queryClient.invalidateQueries({ queryKey: accountKeys.totalBalance() });
+    },
+    onError: (error) => {
+      console.log(`Error in account balance adjustment mutation: ${error}`);
     },
   });
 };
