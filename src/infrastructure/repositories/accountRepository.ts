@@ -53,4 +53,12 @@ export const accountRepository: IAccountRepository = {
     );
     return data;
   },
+
+  transferBalance: async (id, transferData) => {
+    const { data } = await expensesApi.post(
+      `/accounts/${id}/transfer`,
+      transferData,
+    );
+    return data;
+  },
 };

@@ -1,6 +1,7 @@
 import { accountRepository } from "@/infrastructure/repositories/accountRepository";
 import type {
   IAdjustBalance,
+  ITransferPayload,
   IUpdateAccount,
 } from "@domain/accounts/account.interface";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -106,6 +107,34 @@ export const useAdjustBalance = () => {
     },
     onError: (error) => {
       console.log(`Error in account balance adjustment mutation: ${error}`);
+    },
+  });
+};
+
+export const useTransfer = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      transferData,
+    }: {
+      id: string;
+      transferData: ITransferPayload;
+    }) => accountRepository.transferBalance(id, transferData),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: accountKeys.detail(variables.id),
+      });
+      queryClient.invalidateQueries({
+        queryKey: accountKeys.detail(variables.transferData.to_account_id),
+      });
+
+      queryClient.invalidateQueries({ queryKey: accountKeys.list() });
+      queryClient.invalidateQueries({ queryKey: accountKeys.totalBalance() });
+    },
+    onError: (error) => {
+      console.log(`Error in account transfer mutation: ${error}`);
     },
   });
 };

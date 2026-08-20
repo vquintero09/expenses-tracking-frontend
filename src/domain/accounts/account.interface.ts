@@ -42,8 +42,20 @@ export interface IAdjustBalance {
   new_balance: number;
   reason?: string;
 }
-
+// Respuesta de ajuste de saldo
 export interface IAdjustBalanceResponse {
   account: IAccountResponse;
   adjustment_movement: IMovementItem;
+}
+
+// Transferencia de saldo
+export interface ITransferPayload {
+  to_account_id: string;
+  amount: number;
+}
+
+// Respuesta de transferencia
+export interface ITransferResponse {
+  from_movement: IMovementItem;
+  to_movement: IMovementItem;
 }

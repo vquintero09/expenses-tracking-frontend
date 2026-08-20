@@ -4,6 +4,8 @@ import type {
   IAdjustBalanceResponse,
   ICreateAccount,
   ITotalBalance,
+  ITransferPayload,
+  ITransferResponse,
   IUpdateAccount,
 } from "./account.interface";
 
@@ -22,4 +24,9 @@ export interface IAccountRepository {
     id: string,
     adjustmentData: IAdjustBalance,
   ): Promise<IAdjustBalanceResponse>;
+
+  transferBalance(
+    id: string,
+    transferData: ITransferPayload,
+  ): Promise<ITransferResponse>;
 }

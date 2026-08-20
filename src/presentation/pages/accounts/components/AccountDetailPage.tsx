@@ -12,6 +12,7 @@ import { AccountEditModal } from "./AccountEditModal";
 import { AccountDeleteWarning } from "./AccountDeleteWarning";
 import { BalanceCard } from "./BalanceCard";
 import { AdjustBalanceModalContent } from "./AdjustBalanceModal";
+import { TransferBalanceModal } from "./TransferBalanceModal";
 
 export const AccountDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,6 +20,7 @@ export const AccountDetailPage = () => {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isAdjustingBalance, setIsAdjustingBalance] = useState(false);
+  const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   //se pone true antes de hacer la mutación de eliminar. Mientras sea true, useGetAccountById no se ejecutará, evitando que se haga la query de obtener la cuenta mientras se está eliminando
@@ -83,7 +85,7 @@ export const AccountDetailPage = () => {
               <ActionButton
                 label="Transferir"
                 icon={<SwapHorizIcon />}
-                disabled
+                onClick={() => setIsTransferOpen(true)}
               />
               <ActionButton
                 label="Editar"
@@ -119,6 +121,12 @@ export const AccountDetailPage = () => {
       <AdjustBalanceModalContent
         isOpen={isAdjustingBalance}
         onClose={() => setIsAdjustingBalance(false)}
+        account={account ?? null}
+      />
+
+      <TransferBalanceModal
+        isOpen={isTransferOpen}
+        onClose={() => setIsTransferOpen(false)}
         account={account ?? null}
       />
     </main>

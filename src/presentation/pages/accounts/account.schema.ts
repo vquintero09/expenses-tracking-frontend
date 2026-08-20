@@ -33,4 +33,17 @@ export const adjustBalanceSchema = z.object({
     .optional(),
 });
 
+export const transferBalanceSchema = z.object({
+  to_account_id: z
+    .string({ error: "El campo to_account_id es requerido" })
+    .min(1, "Selecciona una cuenta destino"),
+  amount: z
+    .string()
+    .min(1, "El monto es requerido")
+    .refine((value) => !isNaN(Number(value)), {
+      message: "El saldo debe ser un número válido",
+    }),
+});
+
 export type IAdjustBalanceForm = z.infer<typeof adjustBalanceSchema>;
+export type ITransferBalanceForm = z.infer<typeof transferBalanceSchema>;
