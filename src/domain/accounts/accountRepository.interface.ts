@@ -1,4 +1,6 @@
 import type {
+  IAccountMovementsParams,
+  IAccountMovementsResponse,
   IAccountResponse,
   IAdjustBalance,
   IAdjustBalanceResponse,
@@ -20,6 +22,10 @@ export interface IAccountRepository {
 
   getAccountById(id: string): Promise<IAccountResponse | null>;
   getTotalBalance(): Promise<ITotalBalance>;
+  getAccountMovements(
+    params: IAccountMovementsParams,
+  ): Promise<IAccountMovementsResponse>;
+
   adjustBalance(
     id: string,
     adjustmentData: IAdjustBalance,

@@ -1,6 +1,7 @@
 import type { IAccountRepository } from "@domain/accounts/accountRepository.interface";
 import { expensesApi } from "../http/axios.client";
 import type {
+  IAccountMovementsParams,
   IAccountResponse,
   ITotalBalance,
 } from "@domain/accounts/account.interface";
@@ -59,6 +60,20 @@ export const accountRepository: IAccountRepository = {
       `/accounts/${id}/transfer`,
       transferData,
     );
+    return data;
+  },
+
+  getAccountMovements: async ({
+    id,
+    limit,
+    page,
+    from,
+    to,
+    type,
+  }: IAccountMovementsParams) => {
+    const { data } = await expensesApi.get(`/accounts/${id}/movements`, {
+      params: { limit, page, from, to, type },
+    });
     return data;
   },
 };

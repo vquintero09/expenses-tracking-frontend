@@ -34,7 +34,27 @@ export interface IMovementItem {
   category: {
     id: string;
     name: string;
+    icon: string;
+    bg_color: string;
   };
+}
+
+// Parámetros para pedir los movimientos paginados/filtrados de una cuenta
+export interface IAccountMovementsParams {
+  id: string;
+  page: number;
+  limit: number;
+  from?: string;
+  to?: string;
+  type?: "income" | "expense";
+}
+
+export interface IAccountMovementsResponse {
+  data: IMovementItem[];
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
 }
 
 // Ajuste de saldo

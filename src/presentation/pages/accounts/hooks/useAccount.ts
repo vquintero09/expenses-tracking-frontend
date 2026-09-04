@@ -12,6 +12,11 @@ export const accountKeys = {
   details: () => [...accountKeys.all, "detail"] as const,
   detail: (id: string) => [...accountKeys.details(), id] as const,
   totalBalance: () => [...accountKeys.all, "total-balance"] as const,
+  movements: (id: string) => [...accountKeys.detail(id), "movements"] as const,
+  movementList: (
+    id: string,
+    filters: { page: number; type?: "income" | "expense" },
+  ) => [...accountKeys.movements(id), filters] as const,
 };
 
 export const useGetAccounts = () => {
@@ -136,5 +141,23 @@ export const useTransfer = () => {
     onError: (error) => {
       console.log(`Error in account transfer mutation: ${error}`);
     },
+  });
+};
+
+export const useAccountMovements = (
+  id: string,
+  filters: { page: number; type?: "income" | "expense" },
+  limit: number = 10,
+) => {
+  return useQuery({
+    queryKey: accountKeys.movementList(id, filters),
+    queryFn: () =>
+      accountRepository.getAccountMovements({
+        id,
+        page: filters.page,
+        limit,
+        type: filters.type,
+      }),
+    enabled: !!id,
   });
 };
