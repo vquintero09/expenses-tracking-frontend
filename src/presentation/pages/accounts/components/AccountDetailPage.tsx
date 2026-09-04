@@ -13,6 +13,8 @@ import { AccountDeleteWarning } from "./AccountDeleteWarning";
 import { BalanceCard } from "./BalanceCard";
 import { AdjustBalanceModalContent } from "./AdjustBalanceModal";
 import { TransferBalanceModal } from "./TransferBalanceModal";
+import { MovementFilter } from "@/presentation/shared/components/MovementFilters";
+import { AccountMovementsList } from "./AccountMovementsList";
 
 export const AccountDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +24,10 @@ export const AccountDetailPage = () => {
   const [isAdjustingBalance, setIsAdjustingBalance] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [movementFilter, setMovementFilter] = useState<
+    "income" | "expense" | undefined
+  >(undefined);
+  const [page, setPage] = useState<number>(1);
 
   //se pone true antes de hacer la mutación de eliminar. Mientras sea true, useGetAccountById no se ejecutará, evitando que se haga la query de obtener la cuenta mientras se está eliminando
   const [hasRequestedDelete, setHasRequestedDelete] = useState(false);
@@ -43,6 +49,11 @@ export const AccountDetailPage = () => {
         navigate("/cuentas");
       },
     });
+  };
+
+  const handlefilterChange = (filter: "income" | "expense" | undefined) => {
+    setMovementFilter(filter);
+    setPage(1); // Reinicia la página al cambiar el filtro
   };
 
   return (
@@ -108,6 +119,21 @@ export const AccountDetailPage = () => {
                 onConfirm={handleDelete}
               />
             )}
+
+            {/* Listado de movimientos */}
+            <h3 className="text-white font-semibold text-[17px] mt-8 mb-3">
+              Movimientos
+            </h3>
+            <MovementFilter
+              value={movementFilter}
+              onChange={handlefilterChange}
+            />
+            <AccountMovementsList
+              accountId={account.id}
+              type={movementFilter}
+              page={page}
+              onPageChange={setPage}
+            />
           </>
         )}
       </div>
